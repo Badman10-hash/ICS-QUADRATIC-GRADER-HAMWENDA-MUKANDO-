@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadratic Solver & Grade Calculator</title>
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, 
+
+#667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px 
+
+rgba(0,0,0,0.3);
+        }
+        
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+        
+        .button-group {
+            display: flex;
+
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05em;
+            font-weight: 600;
+
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: 
+
+translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #666;
+        }
+        
+        .btn-
+
+secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .result-box {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .result-box.show {
+
+            display: block;
+        }
+        
+        .result-success {
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .result-error {
+            background: 
+
+#f8d7da;
+            border: 2px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .result-box h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .result-box p {
+            margin: 8px 0;
+
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+        
+        .result-box strong {
+            color: #000;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none;
+
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            
+            .card {
+
+                padding: 20px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header>
+            <h1>🧮 Math Tools</h1>
+            <p>Quadratic Equation Solver & Grade Calculator</p>
+        </header>
+        
+        <!-- Quadratic Solver Section -->
+        <div class="card">
+            <h2>📐 Quadratic Equation Solver</h2>
+            <p style="margin-bottom: 20px; color: #666;">Solve equations of the form: ax² + bx + c = 0</p>
+            
+            <div class="form-group">
+                <label for="coeff-a">Coefficient a (cannot be 0):</label>
+                <input type="number" 
+
+id="coeff-a" step="any" placeholder="Enter value for a">
+                <div class="error-message" id="error-a"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="coeff-b">Coefficient b:</label>
+
+                <input type="number" id="coeff-b" step="any" placeholder="Enter value for b">
+                <div class="error-message" id="error-b"></div>
+            </div>
+            
+            <div class="form-group">
+
+                <label for="coeff-c">Coefficient c:</label>
+                <input type="number" id="coeff-c" step="any" placeholder="Enter value for c">
+                <div class="error-message" id="error-c"></div>
+            </div>
+
+            
+            <div class="button-group">
+                <button class="btn-primary" onclick="solveQuadratic()">Solve Equation</button>
+                <button class="btn-secondary" onclick="resetQuadratic()">Clear</button>
+            </div>
+            
+
+            <div class="result-box" id="quadratic-result"></div>
+        </div>
+        
+        <!-- Grading System Section -->
+        <div class="card">
+            <h2>📊 Grade Calculator</h2>
+            <p style="margin-bottom: 20px; color: #666;">Convert numeric scores (0-100) to letter grades</p>
+            
+            <div class="form-group">
+                <label for="score">Score (0-100):</label>
+                <input type="number" id="score" min="0" max="100" step="1" placeholder="Enter score">
+
+                <div class="error-message" id="error-score"></div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn-primary" onclick="calculateGrade()">Calculate Grade</button>
+                <button 
+
+class="btn-secondary" onclick="resetGrade()">Clear</button>
+            </div>
+            
+            <div class="result-box" id="grade-result"></div>
+        </div>
+    </div>
+    
+    <script>
+        function solveQuadratic() {
+
+            const a = document.getElementById('coeff-a').value.trim();
+            const b = document.getElementById('coeff-b').value.trim();
+            const c = document.getElementById('coeff-c').value.trim();
+            const resultBox = 
+
+document.getElementById('quadratic-result');
+            
+            clearErrors(['error-a', 'error-b', 'error-c']);
+            resultBox.classList.remove('show', 'result-success', 'result-error');
+            
+            let hasError = false;
+            
+
+            if (a === '' || isNaN(a)) {
+                showError('error-a', 'Please enter a valid number for coefficient a');
+                hasError = true;
+            } else if (parseFloat(a) === 0) {
+                showError('error-a', 'Coefficient a cannot be zero (not a quadratic equation)');
+                hasError = true;
+            }
+            
+            if (b === '' || isNaN(b)) {
+                showError('error-b', 'Please enter a valid number for coefficient b');
+                hasError = true;
+            }
+
+            
+            if (c === '' || isNaN(c)) {
+                showError('error-c', 'Please enter a valid number for coefficient c');
+                hasError = true;
+            }
+            
+            if (hasError) return;
+
+            
+            const aNum = parseFloat(a);
+            const bNum = parseFloat(b);
+            const cNum = parseFloat(c);
+            
+            const discriminant = bNum * bNum - 4 * aNum * cNum;
+            
+            let resultHTML = '<h3>Solution:</h3>';
+
+            resultHTML += `<p><strong>Equation:</strong> ${formatCoeff(aNum, 'a')}x² ${formatCoeff(bNum, 'b', true)}x ${formatCoeff(cNum, 'c', true)} = 0</p>`;
+            resultHTML += `<p><strong>Discriminant (D):</strong> ${discriminant.toFixed(4)}
+
+</p>`;
+            
+            if (discriminant > 0) {
+                const root1 = (-bNum + Math.sqrt(discriminant)) / (2 * aNum);
+                const root2 = (-bNum - Math.sqrt(discriminant)) / (2 * aNum);
+                resultHTML += 
+
+'<p><strong>Nature of roots:</strong> Two distinct real roots</p>';
+                resultHTML += `<p><strong>Root 1:</strong> x₁ = ${root1.toFixed(4)}</p>`;
+                resultHTML += `<p><strong>Root 2:</strong> x₂ = ${root2.toFixed(4)}</p>`;
+            } else if (discriminant === 0) {
+                const root = 
+
+-bNum / (2 * aNum);
+                resultHTML += '<p><strong>Nature of roots:</strong> One real repeated root</p>';
+                resultHTML += `<p><strong>Root:</strong> x = ${root.toFixed(4)}</p>`;
+            } else {
+                const realPart = -bNum / (2 * aNum);
+                const imagPart 
+
+= Math.sqrt(-discriminant) / (2 * aNum);
+                resultHTML += '<p><strong>Nature of roots:</strong> Two complex conjugate roots</p>';
+                resultHTML += `<p><strong>Root 1:</strong> x₁ = ${realPart.toFixed(4)} + ${imagPart.toFixed(4)}i</p>`;
+
+                resultHTML += `<p><strong>Root 2:</strong> x₂ = ${realPart.toFixed(4)} - ${imagPart.toFixed(4)}i</p>`;
+            }
+            
+            resultBox.innerHTML = resultHTML;
+            resultBox.classList.add('show', 'result-success');
+        }
+        
+        function formatCoeff(value, variable, includeSign = false) {
+            if (includeSign) {
+                return value >= 0 ? `+ ${value}` : `- ${Math.abs(value)}`;
+            }
+            return value.toString();
+
+        }
+        
+        function resetQuadratic() {
+            document.getElementById('coeff-a').value = '';
+            document.getElementById('coeff-b').value = '';
+            document.getElementById('coeff-c').value = '';
+
+            document.getElementById('quadratic-result').classList.remove('show');
+            clearErrors(['error-a', 'error-b', 'error-c']);
+        }
+        
+        function calculateGrade() {
+            const scoreInput = document.getElementById('score').value.trim();
+            const resultBox = document.getElementById('grade-result');
+            
+            clearErrors(['error-score']);
+            resultBox.classList.remove('show', 'result-success', 'result-error');
+            
+
+            if (scoreInput === '' || isNaN(scoreInput)) {
+                showError('error-score', 'Please enter a valid numeric score');
+                return;
+            }
+            
+            const score = parseFloat(scoreInput);
+            
+            if (!Number.isInteger(score)) 
+
+{
+                showError('error-score', 'Please enter an integer value (whole number)');
+                return;
+            }
+            
+            if (score < 0 || score > 100) {
+                showError('error-score', 'Score must be between 0 and 100');
+                return;
+            }
+            
+            let grade = '';
+            
+            if (score >= 85 && score <= 100) {
+                grade = 'A+';
+            } else if (score >= 75 && score <= 84) {
+                grade = 'A';
+            } else if (score >= 65 && score <= 74) {
+
+                grade = 'B+';
+            } else if (score >= 60 && score <= 64) {
+                grade = 'B';
+            } else if (score >= 55 && score <= 59) {
+                grade = 'C+';
+            } else if (score >= 50 && score <= 54) {
+                grade = 'C';
+            } else {
+                grade = 'D';
+            }
+
+            
+            let resultHTML = '<h3>Grade Result:</h3>';
+            resultHTML += `<p><strong>Score ${score} → Grade ${grade}</strong></p>`;
+            
+            if (grade === 'A+') {
+                resultHTML += '<p>🌟 Excellent performance!</p>';
+
+            } else if (grade === 'A') {
+                resultHTML += '<p>👏 Great job!</p>';
+            } else if (grade === 'B+' || grade === 'B') {
+                resultHTML += '<p>👍 Good work!</p>';
+            } else if (grade === 'C+' || grade === 'C') {
+                resultHTML += 
+
+'<p>✓ Satisfactory performance</p>';
+            } else {
+                resultHTML += '<p>Keep working hard to improve!</p>';
+            }
+            
+            resultBox.innerHTML = resultHTML;
+            resultBox.classList.add('show', 'result-success');
+        }
+        
+        function resetGrade() {
+            document.getElementById('score').value = '';
+            document.getElementById('grade-result').classList.remove('show');
+            
+
+clearErrors(['error-score']);
+        }
+        
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent= message;
+            errorElement.classList.add('show');
+        }
+        
+        function clearErrors(errorIds) {
+            errorIds.forEach(id => {
+                const errorElement = document.getElementById(id);
+
+                errorElement.textContent = '';
+                errorElement.classList.remove('show');
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        if (this.id === 'score') {
+                            calculateGrade();
+                        } else {
+                            solveQuadratic();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
